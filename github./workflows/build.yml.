@@ -3,8 +3,6 @@ name: Build Android APK
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -18,17 +16,12 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: 'gradle'
 
       - name: Build with Gradle
         run: |
-          # Create a dummy gradlew file because we don't have one
-          touch gradlew
-          chmod +x gradlew
-          # Use a gradle wrapper to build
+          cd app
           gradle wrapper
           ./gradlew assembleDebug
-        working-directory: ./app
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
